@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Viajes - Sistema Transporte Nahuel
+        </title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{%static 'assets/favicon.ico'%}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{%static 'css/styles.css'%}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <!--
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container px-5">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="entidades.html">Direcciones</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Vehiculos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Orden de Viaje</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#!">Consultas</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        -->
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="text-center my-5">
+                            <h1 class="display-5 fw-bolder text-white mb-2">REPORTE DE VIAJES</h1>
+                            <p class="lead text-white-50 mb-4">Administración de viajes por transportista y vehiculo</p>
+                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                                <a class="btn btn-outline-light btn-lg px-1" href="Viajesformulario">Agregar Viaje</a>
+                                <a class="btn btn-outline-light btn-lg px-1" href="#!">Modificar Viaje</a>
+                                <a class="btn btn-outline-light btn-lg px-1" href="#!">Consultar</a>
+                                <a class="btn btn-outline-light btn-lg px-1" href="inicio">Salir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="bg-light py-50">
+            <!--Boton para agregar viajr --
+            <ul>
+                <a href="{%url "FormularioViajes" %}">+ Agregar Viaje</a>
+            </ul>
+            <!- cierre boton comentado-->
+        </section>
+        <section class="bg-light py-5">
+            <h1>Los viajes Realizados son:</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Facturación</th>
+                    <th scope="col">Camion</th>  
+                    <th scope="col">Origen</th>
+                    <th scope="col">Mercaderia</th>
+                    <th scope="col">Toneladas</th>
+                    <th scope="col">Tarifa</th>
+                </tr>
+            </thead>
+                {% for viajes_e in ListaViajes %}
+                <tr>
+                    <!-- <td>{{ viajes_e.get_Facturación_display }}</td> sin tendria lista -->
+                    <!-- <td>{{ viajes_e.get_Camion_display }}</td> -->
+                    <td>{{ viajes_e.Facturación}}</td>
+                    <td>{{ viajes_e.Camion}}</td>
+                    <td>{{ viajes_e.Origen }}</td>
+                    <td>{{ viajes_e.Mercaderia}} </td>
+                    <td>{{ viajes_e.Toneladas }} </td>
+                    <td>{{ viajes_e.Tarifa }} </td>
+                </tr>
+                {% endfor %}
+        </table>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container px-5"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
