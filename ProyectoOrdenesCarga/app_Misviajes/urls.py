@@ -14,6 +14,7 @@ urlpatterns = [
     path('Viajes/', Viajesrealizadas,name="Viajes"),
     path('Entidades/', CONSULTAENTIDADES, name="Entidades"),
     path('login', login_request, name="login"),
+    path('register', register_request, name="register"),
     
     path('Entidade/list/', EntidadesList.as_view(), name='Entidades_list'),
     path(r'^(?P<pk>\d+)$', EntidadesDetail.as_view(), name='detail'),
