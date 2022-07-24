@@ -29,5 +29,5 @@ class Viajesadmin (admin.ModelAdmin):
         return f"Facturación: {self.Facturación} - Camion: {self.Camion} - Origen:{self.Origen} - Mercaderia:{self.Mercaderia} - Toneladas:{self.Toneladas} Tarifa:{self.Tarifa}"
 admin.site.register (Viajes, Viajesadmin)
 
-
+admin.site.register (avatar)
 

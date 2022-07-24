@@ -1,5 +1,6 @@
 from pyexpat import model
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class camioneros(models.Model):
@@ -36,3 +37,8 @@ class Viajes (models.Model):
     
     def __str__(self):
         return f"Facturación: {self.Facturación} - Camion: {self.Camion} - Origen:{self.Origen} - Mercaderia:{self.Mercaderia} - Toneladas:{self.Toneladas} Tarifa:{self.Tarifa}"
+    
+class avatar (models.Model):
+    #usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to='avatares', null=True, blank=True)
