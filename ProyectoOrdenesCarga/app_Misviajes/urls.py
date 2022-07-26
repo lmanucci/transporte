@@ -12,21 +12,25 @@ from app_Misviajes.views import *
 
 urlpatterns = [
     path('', INICIO, name="inicio"),
-    path('Viajes/', Viajesrealizadas,name="Viajes"),
+    path('base/', base, name="base"),
+    #path('Viajes/', Viajesrealizadas,name="Viajes"),
     path('Entidades/', CONSULTAENTIDADES, name="Entidades"),
     path('login', login_request, name="login"),
     path('register', register_request, name="register"),
     path('logout', logout_request, name="logout"),
     path('editar_perfil', editar_perfil, name="editar_perfil"),
-    
-    
+    path('eliminarentidad/<Entidad_id>', eliminarentidad, name="eliminarentidad"),
+    path('editarentidad/<Entidad_id>', editarentidad, name="editarentidad"),
+    path('vehiculos/', vehiculos, name="vehiculos"),
+    path('Vehiculosformulario', vehiculosformularios, name="Vehiculosformulario"),
+    path('editarvehiculo/<Vehiculo_id>', vehiculoseditar, name="editarvehiculo"),
+    path('eliminarvehiculo/<Vehiculo_id>', eliminarvehiculo, name="eliminarvehiculo"),
     # otra forma de ver las entidades y sus opciones
     path('Entidade/list/', EntidadesList.as_view(), name='Entidades_list'),
     path('Entidade/<pk>', EntidadesDetail.as_view(), name='detail'),
     path('Entidade/nuevo', EntidadesCreate.as_view(), name='Entidade_create'),
     path('Entidade/editar/<pk>', EntidadesUpdate.as_view(), name='Entidade_update'),
     path('Entidade/eliminar/<pk>', EntidadesDelete.as_view(), name='Entidade_Delete'),
-    
     path('Entidade/list/', EntidadesList.as_view(), name='Entidades_list'),
     #Metodo original que dimos en el curso
     #path(r'^(?P<pk>\d+)$', EntidadesDetail.as_view(), name='detail'),

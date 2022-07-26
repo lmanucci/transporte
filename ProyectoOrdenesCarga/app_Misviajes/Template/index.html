@@ -23,9 +23,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         {%if user.is_authenticated%}
+                        <a class="btn btn-light btn-lg px-1 me-sm-1" href="editar_perfil">Modificar Perfil</a>
+                        <a class="btn btn-light btn-lg px-1 me-sm-1" href="logout">Cerrar Cesión</a>
                         <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                        <i class="bi bi-person-circle"></i>
-                        <li class="nav-item"><p class="text-light my2"> <i class="bi bi-person-circle"></i>Usuario: <b>{{user.username }}!</b></p></li>
+                        <li class="nav-item"><p class="text-light my2"> <i class="bi bi-person-circle"></i><img src="{{url}}" alt="" style="height: 40px;">
+                         </i>Usuario: <b>{{user.username }}!</b></p></li>
                         </div>
                     {%else %}
                         
@@ -51,7 +53,7 @@
     -->
         <!-- Header-->
         <header class="bg-dark py-5">
-            <div class="container px-5">
+            <div class="container px-5" >
                 <div class="row gx-5 justify-content-center">
                     <div class="col-lg-15">
                         <div class="text-center my-10">
@@ -61,8 +63,6 @@
                             {%if user.is_authenticated%}
                                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
                                 <i class="bi bi-person-circle"></i>
-                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="editar_perfil">Modificar Perfil</a>
-                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="logout">Cerrar Cesión</a>
                                 </div>
                             {%else %}
                                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
@@ -78,7 +78,7 @@
         <!-- Features section-->
         <section class="py-5 border-bottom" id="features">
             {% if user.is_authenticated%}
-            <div class="container px-10 my-10">
+            <div class="container px-10 my-10" >
                 <div class="row gx-5">
                     <div class="col-lg-4 mb-5 mb-lg-0">
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>

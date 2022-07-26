@@ -1,6 +1,27 @@
-{% extends "base.html" %}
 {% load static %}
-{% block contenidoquecambia %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Viajes - Sistema Transporte Nahuel
+    </title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{%static 'assets/favicon.ico'%}" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{%static 'css/styles.css'%}" rel="stylesheet" /> 
+    
+    
+    <!--<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Viajes</title> -->
+</head>
+<body>
     <header class="bg-dark py-5">
         <div class="container px-5">
             <div class="row gx-5 justify-content-center">
@@ -25,6 +46,15 @@
         <input type="submit" value="Buscar">
     </form>
 </p>
+
+<!--"Forma de Busqueda en Lista"
+<p>Estamos buscando los viajes del camion patente:{{Patente}} </p>
+    <ul>
+      {% for viajes in Viajes %} 
+      <li>{{viajes.Origen}} {{viajes.Mercaderia}} {{viajes.Toneladas}}</li> 
+      {% endfor%}
+    </ul>
+-->
 <section class="bg-light py-5">
     <h2>Los viajes Realizados son:</h2>
 <p> <!--Otra forma de presentar el dato-->
@@ -32,7 +62,6 @@
         <thead>
             <tr>
                 <th scope="col">Carga</th>
-                <th scope="col">Forma Facturación</th>
                 <th scope="col">Camion</th>  
                 <th scope="col">Origen</th>
                 <th scope="col">Mercaderia</th>
@@ -46,7 +75,6 @@
                 <!-- <td>{{ viajes_e.get_Facturación_display }}</td> sin tendria lista -->
                 <!-- <td>{{ viajes_e.get_Camion_display }}</td> -->
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ viajes.Facturación }}</td>
                 <td>{{ viajes.Camion }}</td>
                 <td>{{ viajes.Origen }}</td>
                 <td>{{ viajes.Mercaderia}} </td>
@@ -60,5 +88,20 @@
             {% endfor %}
     </table>
 </p>
-{% endblock %} 
-        
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container px-5"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
+
+</body>
+</html>

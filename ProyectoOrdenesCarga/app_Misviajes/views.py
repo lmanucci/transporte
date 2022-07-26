@@ -1,5 +1,7 @@
 
 from dataclasses import field
+from datetime import date, datetime
+import datetime
 from pdb import post_mortem
 from sre_constants import SUCCESS
 from urllib.robotparser import RequestRate
@@ -29,13 +31,19 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-
 #Misma funcionalidad:
 #LoginRequiredMixin ----->Restringe acceso para clases
 #login_required  ----> Restringe Acceso para funciones
 #staff_member_required ----> Restringe a solo administradores
 
 # Create your views here.
+
+#funciones de inicio, registro y template base
+def base (request):
+    momento= datetime.datetime.now()
+    return render (request, "base.html", {"Fecha":momento})
+
+
 def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data = request.POST)
@@ -96,37 +104,144 @@ def editar_perfil (request):
     return render(request, "editar_perfil.html",{"form":form})
 
 def INICIO (request):
-    
-    return render (request, "index.html")
+    #if request.user.is_authenticated:
+    #    try:
+    #        Avatar = avatar.objects.filter(user=request.user.id)
+    #    except:
+    #        url = "/media/avatar/generica.png" #ruta del archivo para foto generica de usuario si no hay
+    #    return render (request, "index.html", {"url":Avatar[0].imagen.url})    
+    return render (request, "index2.html")
 
-
-@login_required
-def entidades (request):
-    return render (request,"entidades.html")
-@login_required
-def localidades (request):
-    listado=""
-    return render (request,"localidades.html", listado)
-
-@staff_member_required
-def vehiculos (request):
-    Lista_Vehiculos= Vehiculos.objects.all
-    Datos1= {"Lista_Vehiculos":Lista_Vehiculos}
-    return render (request,"vehiculos.html",Datos1)
+#Funciones de entidades
 
 @login_required
 def CONSULTAENTIDADES (request):
-    Lista_Entidades = Entidades.objects.all()
-    ctx= {"Listadoentidades":Lista_Entidades}
-    return render (request,"consultaentidades.html", ctx)
+    if request.method == "POST":
+        dato=request.POST["referencia"]
+        Lista_Entidades = Entidades.objects.filter(Q(Documento__icontains=dato) | Q(nombre__icontains=dato)).values()
+        return render (request,"consultaentidades.html", {"Listadoentidades":Lista_Entidades})
+        #ctx= {"Listadoentidades":Lista_Entidades}
+    else:
+        Lista_Entidades = []
+        return render (request,"consultaentidades.html", {"Listadoentidades":Lista_Entidades})
 
 @login_required
-def Viajesrealizadas (request):
-    Lista_Viajes = Viajes.objects.all()
-    Chofer = "Lautaro Manucci"
-    ctx= {"ListaViajes":Lista_Viajes, "Chofer":Chofer}
-    return render (request,"consulviajes.html", ctx) 
+def Entidadesformularios(request):
+#Metodo Simplificado    
+    if request.method == 'POST':
+        info_for = Entidadesformulario(request.POST)
+        print(info_for)
+        if info_for.is_valid():
+            info=info_for.cleaned_data
+            Entidad= Entidades (tipoentidad=info['tipoentidad'],
+                           Documento=info['Documento'], 
+                           nombre=info['nombre'])
+            Entidad.save()
+            return redirect ("Entidades") #pagina a donde lo envio al usuario una vez que guarde los datos
+    else: #Metodo get
+        info_for=Entidadesformulario()
+        return render(request, "Entidadesformulario.html",{"info_for":info_for})
 
+@login_required
+def eliminarentidad (request, Entidad_id):
+    entidad = Entidades.objects.get(id=Entidad_id)
+    entidad.delete()
+    return redirect ("Entidades")
+
+@login_required
+def editarentidad (request,Entidad_id):
+    entidad = Entidades.objects.get(id=Entidad_id)
+    
+    if request.method == 'POST':
+        info_formulario = Entidadesformulario(request.POST)
+        print(info_formulario)
+        if info_formulario.is_valid():
+            infofor=info_formulario.cleaned_data
+            entidad.tipoentidad = infofor["tipoentidad"]
+            entidad.Documento = infofor["Documento"]
+            entidad.nombre = infofor["nombre"]
+            entidad.save()
+            return redirect ("Entidades")
+        
+    info_for=Entidadesformulario(initial={"tipoentidad":entidad.tipoentidad,
+                           "Documento":entidad.Documento, 
+                           "nombre":entidad.nombre})
+    return render(request, "Entidadesformulario.html",{"info_for":info_for})  
+
+
+#funciones de vehiculos
+@staff_member_required
+def vehiculos (request):
+    if request.method == "POST":
+        dato=request.POST["busqueda"]
+        Lista_Vehiculos = Vehiculos.objects.filter(Patente__icontains=dato)
+        return render (request,"vehiculos.html",{"Datos":Lista_Vehiculos})
+        #ctx= {"Listadoentidades":Lista_Entidades}
+    else:
+        Lista_Vehiculos = []
+        return render (request,"vehiculos.html",{"Datos":Lista_Vehiculos})
+
+@staff_member_required
+def vehiculosformularios(request):
+#Metodo Simplificado    
+    if request.method == 'POST':
+        info_for = vehiculosformulario(request.POST)
+        print(info_for)
+        if info_for.is_valid():
+            info=info_for.cleaned_data
+            Vehiculo= Vehiculos (Vehiculo=info['Vehiculo'],
+                           Patente=info['Patente'], 
+                           DescripVeh=info['DescripVeh'])
+            Vehiculo.save()
+            return redirect ("vehiculos") #pagina a donde lo envio al usuario una vez que guarde los datos
+        return render(request, "vehiculosformulario.html",{"info":info_for})
+    else: #Metodo get
+        info_for=vehiculosformulario()
+        return render(request, "vehiculosformulario.html",{"info":info_for})
+
+@staff_member_required    
+def vehiculoseditar(request, Vehiculo_id):
+    vehiculo = Vehiculos.objects.get(id=Vehiculo_id)
+    if request.method == 'POST':
+        info_formulario = vehiculosformulario(request.POST)
+        print(info_formulario)
+        if info_formulario.is_valid():
+            infofor=info_formulario.cleaned_data
+            vehiculo.Vehiculo = infofor["Vehiculo"]
+            vehiculo.Patente = infofor["Patente"]
+            vehiculo.DescripVeh = infofor["DescripVeh"]
+            vehiculo.save()
+            return redirect ("vehiculos")
+        
+    info_for=vehiculosformulario(initial={"Vehiculo":vehiculo.Vehiculo,
+                           "Patente":vehiculo.Patente, 
+                           "DescripVeh":vehiculo.DescripVeh})
+    return render(request, "vehiculosformulario.html",{"info":info_for})  
+
+@staff_member_required 
+def eliminarvehiculo (request, Vehiculo_id):
+    vehiculo = Vehiculos.objects.get(id=Vehiculo_id)
+    vehiculo.delete()
+    return redirect ("vehiculos")
+
+
+#funciones de camioneros
+@login_required      
+def camionerosformulario (request):
+    #Formulario con metodo más manual
+    if request.method =='POST':
+        datoform= camioneroformulario(request.POST)
+        print(datoform)
+        if datoform.is_valid():
+            dato=datoform.cleaned_data
+            camionero=camioneros(Nombre_Completo=dato['Nombre_Completo'],Apellido=dato['Apellido'])
+            camionero.save()
+            return redirect ("Viajes/")
+    else:
+        datoform=camioneroformulario()
+    return render(request, "formcamionero.html",{"datoform":datoform})
+
+#FUNCIONES DE VIAJE
 @login_required
 def Viajesformulario(request):
 #Metodo Simplificado    
@@ -148,39 +263,6 @@ def Viajesformulario(request):
         info_formulario=viajesformulario()
         return render(request, "formviajes.html",{"info_formulario":info_formulario})
 
-@login_required
-def Entidadesformularios(request):
-#Metodo Simplificado    
-    if request.method == 'POST':
-        info_for = Entidadesformulario(request.POST)
-        print(info_for)
-        if info_for.is_valid():
-            info=info_for.cleaned_data
-            Entidad= Entidades (tipoentidad=info['tipoentidad'],
-                           Documento=info['Documento'], 
-                           nombre=info['nombre'])
-            Entidad.save()
-            return redirect ("Entidades") #pagina a donde lo envio al usuario una vez que guarde los datos
-    else: #Metodo get
-        info_for=Entidadesformulario()
-        return render(request, "Entidadesformulario.html",{"info_for":info_for})
-
-
-@login_required      
-def camionerosformulario (request):
-    #Formulario con metodo más manual
-    if request.method =='POST':
-        datoform= camioneroformulario(request.POST)
-        print(datoform)
-        if datoform.is_valid():
-            dato=datoform.cleaned_data
-            camionero=camioneros(Nombre_Completo=dato['Nombre_Completo'],Apellido=dato['Apellido'])
-            camionero.save()
-            return redirect ("Viajes/")
-    else:
-        datoform=camioneroformulario()
-    return render(request, "formcamionero.html",{"datoform":datoform})
-
 @login_required            
 def busquedaviaje (request):
     if request.method == "POST":
@@ -195,6 +277,7 @@ def eliminarviaje (request, Viaje_id):
     viaje = Viajes.objects.get(id=Viaje_id)
     viaje.delete()
     return redirect ("consultaviajes")
+
 @login_required
 def editarviaje (request,Viaje_id):
     viaje = Viajes.objects.get(id=Viaje_id)
