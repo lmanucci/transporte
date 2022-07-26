@@ -43,6 +43,8 @@ def base (request):
     momento= datetime.datetime.now()
     return render (request, "base.html", {"Fecha":momento})
 
+def acercade (request):
+    return render (request, "acercade.html")
 
 def login_request(request):
     if request.method == "POST":
