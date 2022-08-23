@@ -13,6 +13,7 @@ from app_Misviajes.views import *
 urlpatterns = [
     path('', INICIO, name="inicio"),
     path('base/', base, name="base"),
+    path('acercade', acercade, name="acercade"),
     #path('Viajes/', Viajesrealizadas,name="Viajes"),
     path('Entidades/', CONSULTAENTIDADES, name="Entidades"),
     path('login', login_request, name="login"),
