@@ -5,6 +5,7 @@ import datetime
 from pdb import post_mortem
 from sre_constants import SUCCESS
 from urllib.robotparser import RequestRate
+from xml.dom.expatbuilder import DOCUMENT_NODE
 from django.db import models
 from django import forms
 from urllib import request, response
@@ -244,32 +245,52 @@ def camionerosformulario (request):
     return render(request, "formcamionero.html",{"datoform":datoform})
 
 #FUNCIONES DE VIAJE
+#@login_required
+#def Viajesformulario(request):
+#Metodo Simplificado    
+# if request.method == 'POST':
+#        info_formulario = viajesformulario(request.POST)
+#        print(info_formulario)
+#        if info_formulario.is_valid():
+#            infofor=info_formulario.cleaned_data
+#            carga= Viajes (Fecha=infofor['Fecha'], Cliente=infofor['Cliente'],Tipodoc=infofor['Tipodoc'], Documento=infofor['Documento'], Kilometros=infofor['Kilometros'],
+#                           Camion=infofor['Camion'], 
+#                           Origen=infofor['Origen'], 
+#                           Mercaderia=infofor['Mercaderia'], 
+#                           Toneladas=infofor['Toneladas'], 
+#                          Tarifa=infofor['Tarifa'], Documentación=infofor['Documentación'])
+#            carga.save()
+#            return redirect ("consultaviajes") #pagina a donde lo envio al usuario una vez que guarde los datos
+#        return render(request, "formviajes.html",{"info_formulario":info_formulario})    
+#    else: #Metodo get
+#        info_formulario=viajesformulario()
+#        return render(request, "formviajes.html",{"info_formulario":info_formulario})
+
+
 @login_required
 def Viajesformulario(request):
 #Metodo Simplificado    
     if request.method == 'POST':
-        info_formulario = viajesformulario(request.POST)
-        print(info_formulario)
+        info_formulario = viajesformulario(request.POST, request.FILES)
+        #print(info_formulario)
         if info_formulario.is_valid():
-            infofor=info_formulario.cleaned_data
-            carga= Viajes (Facturación=infofor['Facturación'],
-                           Camion=infofor['Camion'], 
-                           Origen=infofor['Origen'], 
-                           Mercaderia=infofor['Mercaderia'], 
-                           Toneladas=infofor['Toneladas'], 
-                           Tarifa=infofor['Tarifa'])
-            carga.save()
+            info_formulario.save()
             return redirect ("consultaviajes") #pagina a donde lo envio al usuario una vez que guarde los datos
         return render(request, "formviajes.html",{"info_formulario":info_formulario})    
     else: #Metodo get
         info_formulario=viajesformulario()
         return render(request, "formviajes.html",{"info_formulario":info_formulario})
 
+
+
+
+
 @login_required            
 def busquedaviaje (request):
     if request.method == "POST":
         Patente=request.POST["Camion"] 
-        Lis_Viajes = Viajes.objects.filter(Q(Camion__icontains=Patente) | Q(Origen__icontains=Patente) | Q(Mercaderia__icontains=Patente)).values() #Para poder filtrar por varias variables
+        Lis_Viajes = Viajes.objects.all()
+        #Lis_Viajes = Viajes.objects.filter(Q(Camion__icontains=Patente) | Q(Origen__icontains=Patente) | Q(Mercaderia__icontains=Patente)).values() #Para poder filtrar por varias variables
         return render (request, "busquedaviaje.html",{"Viajes":Lis_Viajes})
     else:
         Lis_Viajes = []
@@ -289,22 +310,56 @@ def editarviaje (request,Viaje_id):
         print(info_formulario)
         if info_formulario.is_valid():
             infofor=info_formulario.cleaned_data
-            viaje.Facturación = infofor["Facturación"]
+            viaje.Fecha = infofor["Fecha"]
+            viaje.Cliente = infofor["Cliente"]
+            viaje.Tipodoc = infofor["Tipodoc"]
+            viaje.Documento = infofor["Documento"]
+            viaje.Kilometros = infofor["Kilometros"]
             viaje.Camion = infofor["Camion"]
             viaje.Origen = infofor["Origen"]
+            viaje.Destino = infofor["Destino"]
             viaje.Mercaderia = infofor["Mercaderia"]
             viaje.Toneladas = infofor["Toneladas"]
             viaje.Tarifa = infofor["Tarifa"]
             viaje.save()
             return redirect ("consultaviajes")
         
-    info_formulario=viajesformulario(initial={"Facturación":viaje.Facturación,
+    info_formulario=viajesformulario(initial={"Fecha":viaje.Fecha,
+        "Cliente":viaje.Cliente, "Tipodoc":viaje.Tipodoc,"Documento":viaje.Documento, "Kilometros":viaje.Kilometros,
                            "Camion":viaje.Camion, 
-                           "Origen":viaje.Origen, 
+                           "Origen":viaje.Origen,
+                           "Destino":viaje.Destino, 
                            "Mercaderia":viaje.Mercaderia, 
                            "Toneladas":viaje.Toneladas, 
-                           "Tarifa":viaje.Tarifa})
-    return render(request, "formviajes.html",{"info_formulario":info_formulario})  
+                           "Tarifa":viaje.Tarifa, "Documentación":viaje.Documentación})
+    return render(request, "formviajes.html",{"info_formulario":info_formulario})
+
+@staff_member_required
+def facturacion (request, Viaje_id):  
+    viaje = Viajes.objects.get(id=Viaje_id)
+    
+    if request.method == 'POST':
+        info_formulario = facturar(request.POST)
+        print(info_formulario)
+        if info_formulario.is_valid():
+            infofor=info_formulario.cleaned_data
+            viaje.Documento = infofor["Documento"]
+            viaje.Facturado = infofor["Facturado"]
+            viaje.Fecha_Factura = infofor["Fecha_Factura"]
+            viaje.Nro_Factura = infofor["Nro_Factura"]
+            viaje.save()
+            return redirect ("consultaviajes")
+        
+    info_formulario=facturar(initial={"Fecha":viaje.Fecha,
+        "Cliente":viaje.Cliente, "Tipodoc":viaje.Tipodoc,"Documento":viaje.Documento, "Kilometros":viaje.Kilometros,
+                           "Camion":viaje.Camion, 
+                           "Origen":viaje.Origen,
+                           "Destino":viaje.Destino, 
+                           "Mercaderia":viaje.Mercaderia, 
+                           "Toneladas":viaje.Toneladas, 
+                           "Tarifa":viaje.Tarifa,
+        "Facturado":viaje.Facturado, "Fecha_Factura":viaje.Fecha_Factura,"Nro_Factura":viaje.Nro_Factura})
+    return render(request, "formviajes.html",{"info_formulario":info_formulario})
 
 class EntidadesList(LoginRequiredMixin, ListView):
     model= Entidades

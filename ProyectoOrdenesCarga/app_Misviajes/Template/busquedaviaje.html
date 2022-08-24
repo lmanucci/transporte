@@ -32,12 +32,18 @@
         <thead>
             <tr>
                 <th scope="col">Carga</th>
-                <th scope="col">Forma Facturación</th>
-                <th scope="col">Camion</th>  
+                <th scope="col">Fecha</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Tipo Doc</th>  
+                <th scope="col">Nro</th>
+                <th scope="col">KM</th>
+                <th scope="col">Camion</th>
                 <th scope="col">Origen</th>
+                <th scope="col">Destino</th>
                 <th scope="col">Mercaderia</th>
                 <th scope="col">Toneladas</th>
                 <th scope="col">Tarifa</th>
+                <th scope="col">Importes</th>
                 <th scope="col">Acciones</th>
             </tr>
         </thead>
@@ -46,15 +52,23 @@
                 <!-- <td>{{ viajes_e.get_Facturación_display }}</td> sin tendria lista -->
                 <!-- <td>{{ viajes_e.get_Camion_display }}</td> -->
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ viajes.Facturación }}</td>
-                <td>{{ viajes.Camion }}</td>
-                <td>{{ viajes.Origen }}</td>
-                <td>{{ viajes.Mercaderia}} </td>
-                <td>{{ viajes.Toneladas }} </td>
-                <td>{{ viajes.Tarifa }} </td>
+                <td>{{ viajes.Fecha }}</td>
+                <td>{{ viajes.Cliente}}</td>
+                <td>{{ viajes.get_Tipodoc_display }}</td>
+                <td>{{ viajes.Documento }}</td>
+                <td>{{ viajes.get_Kilometros_display}} </td>
+                <td>{{ viajes.Camion }} </td>
+                <td>{{ viajes.Origen }} </td>
+                <td>{{ viajes.Destino }} </td>
+                <td>{{ viajes.get_Mercaderia_display}} </td>
+                <td>{{ viajes.Toneladas}} </td>
+                <td>{{ viajes.Tarifa}} </td>
+                <td>{{ viajes.importe}} </td>
                 <td>
                     <a href="{% url 'editarviaje' viajes.id %}" class="text-primary badge badge-primary text-decoration-none"> <i class="bi bi-pencil-square"></i> Editar  </a>
+                    <a href="{% url 'facturarviaje' viajes.id %}" class="text-primary badge badge-danger text-decoration-none"><i class="bi bi-check2-square"></i> Facturar </a>
                     <a href="{% url 'eliminarviaje' viajes.id %}" class="text-danger badge badge-danger text-decoration-none"><i class="bi bi-x-square"></i> Eliminar </a>
+
                 </td>
             </tr>
             {% endfor %}

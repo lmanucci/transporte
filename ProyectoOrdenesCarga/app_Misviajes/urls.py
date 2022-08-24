@@ -44,5 +44,6 @@ urlpatterns = [
     path('entidades/camioneros', camionerosformulario),
     path('consultaviajes', busquedaviaje, name="consultaviajes"),
     path('eliminarviaje/<Viaje_id>', eliminarviaje, name="eliminarviaje"),
-    path('editarviaje/<Viaje_id>', editarviaje, name="editarviaje")
+    path('editarviaje/<Viaje_id>', editarviaje, name="editarviaje"),
+    path('facturarviaje/<Viaje_id>', facturacion, name="facturarviaje")
     ,]

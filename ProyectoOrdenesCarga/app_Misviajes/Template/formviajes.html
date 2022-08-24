@@ -21,7 +21,7 @@
         {%if info_formulario.errors%}
         <p style="color: red;">Están mal los datos, revisar</p>
         {%endif%}
-        <form action="" method="post">{% csrf_token %}
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
             <table style="color: white ;">
                 {{info_formulario.as_table}}
             </table>
