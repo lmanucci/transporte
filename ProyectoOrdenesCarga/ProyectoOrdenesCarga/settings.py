@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,7 +76,7 @@ WSGI_APPLICATION = 'ProyectoOrdenesCarga.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-db_from_env= dj_database_url.config(conn_max_age=500)
+db_from_env= dj_database_url.config(conn_max_age=50)
 
 DATABASES = {
     'default': {
@@ -84,8 +85,9 @@ DATABASES = {
     }
  }
 
-#DATABASES =['default'].update(db_from_env)
-
+DATABASES['default'].update(db_from_env)
+STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'),)
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
