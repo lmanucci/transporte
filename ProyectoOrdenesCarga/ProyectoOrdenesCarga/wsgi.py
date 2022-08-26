@@ -15,5 +15,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ProyectoOrdenesCarga.settings')
 
 application = get_wsgi_application()
 
-from whitenoise.djanjo import DjangoWhiteNoise
-application = DjangoWhiteNoise(application)
+
