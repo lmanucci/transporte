@@ -18,7 +18,7 @@ from re import template
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from turtle import onclick
+#from turtle import onclick
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.http import HttpResponse
