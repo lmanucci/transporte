@@ -17,6 +17,6 @@ application = get_wsgi_application()
 
 from whitenoise import WhiteNoise
 
-application = WhiteNoise(application)
+application = WhiteNoise(application, root='/ProyectoOrdenesCarga/static/')
 #application.add_files('ProyectoOrdenesCarga/static/', prefix='/static/')
 
