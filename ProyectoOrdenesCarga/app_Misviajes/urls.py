@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from django.views import *
@@ -46,4 +48,4 @@ urlpatterns = [
     path('eliminarviaje/<Viaje_id>', eliminarviaje, name="eliminarviaje"),
     path('editarviaje/<Viaje_id>', editarviaje, name="editarviaje"),
     path('facturarviaje/<Viaje_id>', facturacion, name="facturarviaje")
-    ,]
+    ,] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
