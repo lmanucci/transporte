@@ -49,3 +49,4 @@ urlpatterns = [
     path('editarviaje/<Viaje_id>', editarviaje, name="editarviaje"),
     path('facturarviaje/<Viaje_id>', facturacion, name="facturarviaje")
     ,] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
