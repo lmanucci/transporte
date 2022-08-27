@@ -6,7 +6,7 @@ from django.views import *
 from django.contrib import admin
 from django.urls import path
 from django.views import *
-from django import views
+#from django import views
 
 from app_Misviajes.views import *
 
