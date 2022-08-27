@@ -1,1 +1,1 @@
-web: gunicorn ProyectoOrdenesCarga.wsgi --log-file -
+web: gunicorn ProyectoOrdenesCarga.wsgi
