@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-l0t%atqaw1&+yk$$cdfju+2a#t$l_y#ea48+ux^&c@vi(4wt!5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['sistema-transporte-fletes.herokuapp.com']
 
