@@ -23,7 +23,7 @@ from django.shortcuts import redirect, render
 from django.template import loader
 from django.http import HttpResponse
 from django.template import Context, Template
-from ProyectoOrdenesCarga import app_Misviajes
+#from ProyectoOrdenesCarga import app_Misviajes
 from app_Misviajes.models import *
 from app_Misviajes.forms import *
 from django.urls import reverse_lazy
