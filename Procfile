@@ -1,1 +1,1 @@
-web: guricorn --pythonpath ProyectoOrdenescarga ProyectoOrdenescarga.wsgi
+web: gunicorn --pythonpath ProyectoOrdenesCarga ProyectoOrdenesCarga.wsgi
