@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath ProyectoOrdenesCarga ProyectoOrdenesCarga.wsgi
+web: gunicorn ProyectoOrdenesCarga.wsgi --log-file -
