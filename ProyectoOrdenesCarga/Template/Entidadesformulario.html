@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block contenidoquecambia %}
+<header class="bg-dark py-2">
+            <div class="container px-4">
+                <div class="row gx-5 justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="text-center my-4">
+                            <h1 class="display-8 fw-bolder text-white mb-1">Nueva Entidad</h1>
+                            <p class="lead text-white-50 mb-1">Administración de viajes por transportista y vehiculo</p>
+                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                                <a class="btn btn-outline-light btn-lg px-1" href="/app_Misviajes/Entidades/">Salir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <header class="bg-dark py-5">
+        {%if info_for.errors%}
+        <p style="color: red;">Están mal los datos, revisar</p>
+        {%endif%}
+        <form action="" method="post">{% csrf_token %}
+            <table style="color: white ;">
+                {{info_for.as_table}}
+            </table>
+            <input type="submit" value="Enviar">
+        </form>
+        </header>
+    </body>
+</html>
+{% endblock %}   

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contenidoquecambia %}
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center my-5">
+                    <h1 class="display-5 fw-bolder text-white mb-2">Reporte de Vehiculos</h1>
+                    <p class="lead text-white-50 mb-4">Administración de Vehiculos</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                        <a class="btn btn-outline-light btn-lg px-1" href="/app_Misviajes/Vehiculosformulario">Agregar Vehiculo</a>
+                        <a class="btn btn-outline-light btn-lg px-1" href="/app_Misviajes">Salir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<h1>Consulta por Patente</h1>
+<p><form action="" method="post"> 
+    {% csrf_token %}
+    <input type="text" name="busqueda" id="">
+    <input type="submit" value="Buscar">
+</form>
+</p>
+<section class="bg-light py-5">
+<h2>Listado de Vehiculos:</h2>
+<p> <!--Otra forma de presentar el dato-->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Vehiculo</th>
+                <th scope="col">Tipo Vehiculo</th>  
+                <th scope="col">Patente</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+            {% for vehiculo in Datos %}
+            <tr>
+                <!-- <td>{{ viajes_e.get_Facturación_display }}</td> sin tendria lista -->
+                <!-- <td>{{ viajes_e.get_Camion_display }}</td> -->
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ vehiculo.get_Vehiculo_display }}</td>
+                <td>{{ vehiculo.Patente }}</td>
+                <td>{{ vehiculo.DescripVeh}} </td>
+                <td>
+                    <a href="{% url 'editarvehiculo' vehiculo.id %}" class="text-primary badge badge-primary text-decoration-none"> <i class="bi bi-pencil-square"></i> Editar  </a>
+                    <a href="{% url 'eliminarvehiculo' vehiculo.id %}" class="text-danger badge badge-danger text-decoration-none"><i class="bi bi-x-square"></i> Eliminar </a>
+                </td>
+            </tr>
+            {% endfor %}
+    </table>
+</p>
+{% endblock %}
